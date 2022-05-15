@@ -2,6 +2,8 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
+import { toast } from 'react-toastify';
+
 import {
   clearItemFromCart,
   addItem,
@@ -21,6 +23,20 @@ import {
 /* A function that takes in an object as an argument and returns a JSX element. */
 const CheckoutItem = ({ cartItem, clearItem, addItem, removeItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
+
+  /**
+   * Notify_remove_item is a function that returns a toast.warning message.
+   */
+  const notify_remove_item = () =>
+    toast.warning('You removed an item from the cart');
+
+ /**
+  * Notify_add_item() is a function that displays a success message when the user clicks the 'Add to
+  * Cart' button.
+  */
+  const notify_add_item = () =>
+    toast.success('You increased the number of item in your cart!');
+
   return (
     <>
       <CheckoutItemContainer>
@@ -29,12 +45,30 @@ const CheckoutItem = ({ cartItem, clearItem, addItem, removeItem }) => {
         </ImageContainer>
         <TextContainer>{name}</TextContainer>
         <QuantityContainer>
-          <div onClick={() => removeItem(cartItem)}>&#10094;</div>
+          <div
+            onClick={() => {
+              removeItem(cartItem);
+              notify_remove_item();
+            }}
+          >
+            &#10094;
+          </div>
           <span>{quantity}</span>
-          <div onClick={() => addItem(cartItem)}>&#10095;</div>
+          <div
+            onClick={() => {
+              addItem(cartItem);
+              notify_add_item();
+            }}
+          >
+            &#10095;
+          </div>
         </QuantityContainer>
         <TextContainer>{price * quantity} </TextContainer>
-        <RemoveButtonContainer onClick={() => clearItem(cartItem)}>
+        <RemoveButtonContainer
+          onClick={() => {
+            clearItem(cartItem);
+          }}
+        >
           &#10005;
         </RemoveButtonContainer>
       </CheckoutItemContainer>

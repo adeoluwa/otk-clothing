@@ -2,6 +2,10 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
+import {  toast} from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 import { addItem } from '../../redux/cart/cart.actions';
 
 import CustomButton from '../custom-button/custom-button';
@@ -10,6 +14,14 @@ import './collection-item.styles.scss';
 
 const CollectionItem = ({ item, addItem }) => {
   const { name, price, imageUrl } = item;
+  const toastId = React.useRef(null);
+
+  const notify = () => {
+    if (!toast.isActive(toastId.current)) {
+      toast.success('You added an item to your cart !');
+    }
+  };
+
   return (
     <div className="collection-item">
       <div className="image" style={{ backgroundImage: `url(${imageUrl})` }} />
@@ -18,10 +30,18 @@ const CollectionItem = ({ item, addItem }) => {
         <span className="price">{price}</span>
       </div>
 
-      <CustomButton onClick={() => addItem(item)} inverted>
+      <CustomButton
+        onClick={() => {
+          console.log('I DON CLICK O');
+          addItem(item);
+          notify();
+        }}
+        inverted
+      >
         {' '}
         Add to cart
       </CustomButton>
+      {/* <ToastContainer transition={Slide} /> */}
     </div>
   );
 };

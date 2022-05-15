@@ -30,28 +30,30 @@ import { setItems } from './redux/shop/shop.action';
 
 import SHOP_DATA from './redux/shop/shop.data';
 
+import { Slide, ToastContainer } from 'react-toastify';
+
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
- /**
-  * ComponentDidMount() is a lifecycle method that is called after the component is mounted. 
-  * 
-  * In this case, we are using it to set the current user and the items in the shop. 
-  * 
-  * The first thing we do is destructure setCurrentUser and setItems from this.props. 
-  * 
-  * Then we use the onAuthStateChanged() method from the firebase library to check if the user is
-  * authenticated. 
-  * 
-  * If the user is authenticated, we create a userRef object using the createUserProfileDocument()
-  * function. 
-  * 
-  * Then we use the onSnapshot() method to get the user's data and set the current user. 
-  * 
-  * If the user is not authenticated, we set the current user to null. 
-  * 
-  * Finally, we use the setItems() function to set the items in the shop.
-  */
+  /**
+   * ComponentDidMount() is a lifecycle method that is called after the component is mounted.
+   *
+   * In this case, we are using it to set the current user and the items in the shop.
+   *
+   * The first thing we do is destructure setCurrentUser and setItems from this.props.
+   *
+   * Then we use the onAuthStateChanged() method from the firebase library to check if the user is
+   * authenticated.
+   *
+   * If the user is authenticated, we create a userRef object using the createUserProfileDocument()
+   * function.
+   *
+   * Then we use the onSnapshot() method to get the user's data and set the current user.
+   *
+   * If the user is not authenticated, we set the current user to null.
+   *
+   * Finally, we use the setItems() function to set the items in the shop.
+   */
   componentDidMount() {
     const { setCurrentUser, setItems } = this.props;
 
@@ -60,9 +62,9 @@ class App extends React.Component {
       if (userAuth) {
         const userRef = await creatUserProfileDocument(userAuth);
 
-       /* Setting the current user. */
+        /* Setting the current user. */
         userRef.onSnapshot((snapShot) => {
-         /* Setting the current user. */
+          /* Setting the current user. */
           setCurrentUser({
             id: snapShot.id,
             ...snapShot.data(),
@@ -70,14 +72,14 @@ class App extends React.Component {
         });
       } else setCurrentUser(null);
     });
-   
+
     /* Setting the items in the shop. */
     setItems(SHOP_DATA);
   }
 
- /**
-  * This function is called when the component is about to be removed from the DOM
-  */
+  /**
+   * This function is called when the component is about to be removed from the DOM
+   */
   componentWillUnmount() {
     this.unsubscribeFromAuth();
   }
@@ -85,7 +87,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <GlobalStyle/>
+        <GlobalStyle />
         <Header />
 
         <Routes>
@@ -105,6 +107,7 @@ class App extends React.Component {
           <Route exact path="/checkout" element={<CheckoutPage />} />
           <Route exact path="/signin" element={<SignInAndSignUpPage />} />
         </Routes>
+        <ToastContainer transition={Slide} limit={2} />
       </div>
     );
   }

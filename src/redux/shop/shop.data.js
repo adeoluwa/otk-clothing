@@ -240,7 +240,7 @@ const SHOP_DATA = [
   {
     id: 35,
     category: 'men',
-    name: 'Burgundy T-shirt',
+    name: 'polka T-shirt',
     imageUrl: 'https://i.ibb.co/mh3VM1f/polka-dot-shirt.png',
     price: 25,
   },
